@@ -80,7 +80,7 @@
   <section>
     <h2>Education</h2>
     <ul>
-      <li><strong>BCA – Sri Hari Degree College (Autonomous), Kadapa</strong> (2023 – 2026 Expected)</li>
+      <li><strong>BCA – Sri Hari Degree College (Autonomous), Kadapa</strong> (2024 – 2027 Expected)</li>
     </ul>
   </section>
 
