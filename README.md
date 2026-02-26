@@ -4,197 +4,383 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guruvu Galla Hari | Portfolio</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      scroll-behavior: smooth;
+      transition: 0.3s;
     }
 
     body {
       font-family: 'Poppins', sans-serif;
       background: #f4f7fb;
-      color: #333;
-      line-height: 1.6;
+      color: #2d2d2d;
     }
 
-    /* Header */
+    body.dark {
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
     header {
-      background: linear-gradient(135deg, #007bff, #6610f2);
+      background: linear-gradient(135deg, #7c3aed, #14b8a6);
       color: white;
       text-align: center;
-      padding: 70px 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      padding: 50px 20px;
       position: relative;
     }
 
-    header h1 {
-      font-size: 2.8em;
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: none;
       font-weight: 600;
-      animation: fadeInDown 1s ease;
+      cursor: pointer;
+      background: white;
+      color: #7c3aed;
     }
 
-    header p {
-      font-size: 1.3em;
+    header h1 {
+      font-size: 2.5em;
+    }
+
+    .typing {
       margin-top: 10px;
-      animation: fadeInUp 1.2s ease;
+      font-size: 1.1em;
+      height: 24px;
     }
 
-    @keyframes fadeInDown {
-      from {opacity: 0; transform: translateY(-30px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    @keyframes fadeInUp {
-      from {opacity: 0; transform: translateY(30px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    /* Section Styling */
     section {
       max-width: 1000px;
-      margin: 50px auto;
-      padding: 40px 30px;
+      margin: 30px auto;
+      padding: 30px 25px;
       background: white;
-      border-radius: 15px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     }
 
-    section:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    body.dark section {
+      background: #1e293b;
     }
 
     h2 {
-      color: #0d6efd;
-      border-left: 5px solid #6610f2;
-      padding-left: 10px;
-      margin-bottom: 20px;
-      font-size: 1.8em;
-    }
-
-    ul {
-      list-style: none;
+      color: #7c3aed;
+      margin-bottom: 15px;
+      border-left: 5px solid #14b8a6;
       padding-left: 10px;
     }
 
-    ul li {
+    body.dark h2 {
+      color: #c084fc;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 10px;
+    }
+
+    .project {
+      background: #f0fdfa;
+      padding: 12px;
+      border-radius: 10px;
       margin-bottom: 10px;
     }
 
-    strong {
-      color: #222;
+    body.dark .project {
+      background: #334155;
     }
 
-    /* Contact Links */
-    .contact a {
-      color: #6610f2;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.3s;
+    .resume-actions {
+      margin-top: 15px;
     }
 
-    .contact a:hover {
-      color: #0d6efd;
-      text-shadow: 0 0 10px rgba(13, 110, 253, 0.6);
-    }
-
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, #6610f2, #007bff);
+    .view-btn {
+      padding: 12px 22px;
+      background: linear-gradient(135deg, #7c3aed, #14b8a6);
       color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(124,58,237,0.35);
+    }
+
+    footer {
       text-align: center;
       padding: 20px;
-      margin-top: 50px;
-      box-shadow: 0 -3px 15px rgba(0,0,0,0.2);
+      background: linear-gradient(135deg, #14b8a6, #7c3aed);
+      color: white;
+      margin-top: 30px;
     }
 
-    /* Responsive */
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 2em;
-      }
-      header p {
-        font-size: 1em;
-      }
-      section {
-        padding: 25px;
-      }
+    /* RESUME MODAL */
+    .resume-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .resume-content {
+      width: 92%;
+      max-width: 950px;
+      height: 88%;
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      animation: popup 0.35s ease;
+    }
+
+    body.dark .resume-content {
+      background: rgba(30, 41, 59, 0.6);
+    }
+
+    .resume-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      background: linear-gradient(135deg, #7c3aed, #14b8a6);
+      color: white;
+      font-weight: 600;
+    }
+
+    .controls button {
+      margin-left: 6px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .loader {
+      text-align: center;
+      padding: 10px;
+      background: #0f172a;
+      color: white;
+      display: none;
+    }
+
+    iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: white;
+      transform-origin: center;
+    }
+
+    .modal-actions {
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      background: rgba(241,245,249,0.9);
+    }
+
+    body.dark .modal-actions {
+      background: rgba(15,23,42,0.9);
+    }
+
+    #downloadBtn {
+      padding: 10px 18px;
+      background: linear-gradient(135deg, #7c3aed, #14b8a6);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    @keyframes popup {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Header -->
-  <header>
-    <h1>Guruvu Galla Hari</h1>
-    <p>BCA Student | Aspiring Full Stack Developer</p>
-  </header>
+<header>
+  <button class="toggle-btn" onclick="toggleDarkMode()">🌙</button>
+  <h1>Guruvu Galla Hari</h1>
+  <div class="typing" id="typing"></div>
+</header>
 
-  <!-- About -->
-  <section>
-    <h2>About Me</h2>
-    <p>
-      I am a BCA student at <strong>Sri Hari Degree College (Autonomous), Kadapa</strong> with a deep interest
-      in <strong>Web Development, Databases, and Full Stack technologies</strong>. Currently doing an internship
-      in Full Stack Web Development at <strong>Edutanr</strong>. I enjoy building real-world applications and
-      continuously learning new technologies to improve my skills.
-    </p>
-  </section>
+<section>
+  <h2>About Me</h2>
+  <p>
+    I am a BCA student passionate about Full Stack Development, building responsive 
+    and database-driven applications.
+  </p>
 
-  <!-- Education -->
-  <section>
-    <h2>Education</h2>
-    <ul>
-      <li><strong>BCA – Sri Hari Degree College (Autonomous), Kadapa</strong> (2024 – 2027 Expected)</li>
-    </ul>
-  </section>
+  <div class="resume-actions">
+    <button class="view-btn" onclick="openResume()">👀 View Resume</button>
+  </div>
+</section>
 
-  <!-- Skills -->
-  <section>
-    <h2>Skills</h2>
-    <ul>
-      <li>💻 Programming: C, C++, Python, JavaScript</li>
-      <li>🌐 Web: HTML, CSS, Node.js, React.js</li>
-      <li>🗄 Database: MySQL, MongoDB</li>
-      <li>🔧 Tools: Git, GitHub</li>
-    </ul>
-  </section>
+<section>
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    <p>💻 C, C++, Python, JavaScript</p>
+    <p>🌐 HTML, CSS, React, Node.js</p>
+    <p>🗄 MySQL, MongoDB</p>
+    <p>🔧 Git, GitHub</p>
+  </div>
+</section>
 
-  <!-- Projects -->
-  <section>
-    <h2>Projects</h2>
-    <ul>
-      <li><strong>🛒 E-Commerce Website:</strong> Built using React.js, Node.js, and MongoDB with user authentication.</li>
-      <li><strong>📱 Student Attendance App:</strong> Designed for Sri Hari Degree College using MySQL and Node.js backend.</li>
-      <li><strong>🌾 Smart Crop Suggestion System:</strong> Suggests best crops based on soil and climate data.</li>
-    </ul>
-  </section>
+<section>
+  <h2>Projects</h2>
+  <div class="project">🛒 E-Commerce Website</div>
+  <div class="project">📱 Student Attendance App</div>
+  <div class="project">🌾 Smart Crop Suggestion System</div>
+</section>
 
-  <!-- Experience -->
-  <section>
-    <h2>Experience</h2>
-    <ul>
-      <li><strong>Internship at Edutanr</strong> – Full Stack Web Development Intern (2025)</li>
-    </ul>
-  </section>
+<section>
+  <h2>Contact</h2>
+  <p>📧 g.hari9705@gmail.com</p>
+  <p>💻 github.com/harig9</p>
+</section>
 
-  <!-- Contact -->
-  <section class="contact">
-    <h2>Contact</h2>
-    <p>📧 Email: <a href="mailto:g.hari9705@gmail.com">g.hari9705@gmail.com</a></p>
-    <p>🔗 LinkedIn: <a href="https://www.linkedin.com/in/guruvu-galla-hari" target="_blank">linkedin.com/in/guruvu-galla-hari</a></p>
-    <p>💻 GitHub: <a href="https://github.com/harig9" target="_blank">github.com/harig9</a></p>
-    <p>📍 Location: Kadapa, Andhra Pradesh</p>
-  </section>
+<footer>
+  © 2026 Guruvu Galla Hari
+</footer>
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 Guruvu Galla Hari | Designed with 💙 by Hari</p>
-  </footer>
+<!-- RESUME MODAL -->
+<div class="resume-modal" id="resumeModal">
+  <div class="resume-content">
+
+    <div class="resume-header">
+      <span>📄 My Resume</span>
+      <div class="controls">
+        <button onclick="zoomOut()">➖</button>
+        <button onclick="zoomIn()">➕</button>
+        <button onclick="closeResume()">✖</button>
+      </div>
+    </div>
+
+    <div class="loader" id="loader">Loading Resume...</div>
+
+    <iframe id="resumeFrame" src="Resume.pdf"></iframe>
+
+    <div class="modal-actions">
+      <button id="downloadBtn">📥 Download Resume</button>
+      <span id="downloadCount">⬇ Downloads: 0</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+  }
+
+  // Typing Animation
+  const roles = [
+    "Aspiring Full Stack Developer 🚀",
+    "React & Node.js Learner 💻",
+    "Web Developer 🌐"
+  ];
+
+  let i = 0, j = 0, text = "", deleting = false;
+
+  function typeEffect() {
+    text = roles[i];
+
+    if (deleting) {
+      typing.textContent = text.substring(0, j--);
+      if (j < 0) { deleting = false; i = (i+1)%roles.length; }
+    } else {
+      typing.textContent = text.substring(0, j++);
+      if (j > text.length) { deleting = true; setTimeout(typeEffect, 1000); return; }
+    }
+    setTimeout(typeEffect, deleting ? 50 : 100);
+  }
+
+  const typing = document.getElementById("typing");
+  typeEffect();
+
+  // Resume Modal Logic
+  const modal = document.getElementById("resumeModal");
+  const frame = document.getElementById("resumeFrame");
+  const loader = document.getElementById("loader");
+  const downloadBtn = document.getElementById("downloadBtn");
+  const downloadCountText = document.getElementById("downloadCount");
+
+  let zoomLevel = 1;
+
+  function openResume() {
+    modal.style.display = "flex";
+    loader.style.display = "block";
+    frame.style.display = "none";
+
+    setTimeout(() => {
+      loader.style.display = "none";
+      frame.style.display = "block";
+    }, 700);
+  }
+
+  function closeResume() {
+    modal.style.display = "none";
+  }
+
+  function zoomIn() {
+    zoomLevel += 0.1;
+    frame.style.transform = `scale(${zoomLevel})`;
+  }
+
+  function zoomOut() {
+    zoomLevel = Math.max(0.7, zoomLevel - 0.1);
+    frame.style.transform = `scale(${zoomLevel})`;
+  }
+
+  // Download Counter
+  let count = localStorage.getItem("resumeDownloadCount") || 0;
+  downloadCountText.textContent = `⬇ Downloads: ${count}`;
+
+  if (localStorage.getItem("resumeDownloaded")) lockDownload();
+
+  downloadBtn.addEventListener("click", () => {
+    const link = document.createElement("a");
+    link.href = "Resume.pdf";
+    link.download = "Guruvu_Galla_Hari_Resume.pdf";
+    link.click();
+
+    localStorage.setItem("resumeDownloaded", "true");
+
+    count++;
+    localStorage.setItem("resumeDownloadCount", count);
+    downloadCountText.textContent = `⬇ Downloads: ${count}`;
+
+    lockDownload();
+  });
+
+  function lockDownload() {
+    downloadBtn.textContent = "✅ Already Downloaded";
+    downloadBtn.style.opacity = "0.6";
+    downloadBtn.style.pointerEvents = "none";
+  }
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeResume();
+  });
+</script>
 
 </body>
 </html>
